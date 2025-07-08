@@ -1,0 +1,21 @@
+version: '3.3'
+
+services:
+
+  pubsub:
+    image: google/cloud-sdk:latest
+    container_name: pubsub_emulator_2
+    ports:
+      - "8085:8085"
+    working_dir: /source
+    volumes:
+      - ./scripts:/source/scripts
+    environment:
+      - PUBSUB_PROJECT_ID=my-project-id
+      - PUBSUB_EMULATOR_HOST=0.0.0.0:8085
+    entrypoint: ["/bin/bash", "scripts/init_pubsub.sh"]
+
+
+
+volumes:
+  pgdata:
