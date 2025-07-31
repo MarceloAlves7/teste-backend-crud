@@ -1,5 +1,7 @@
 from rest_framework import serializers
 from .models import Produto, Pedido, ItemPedido
+from django.db import transaction
+
 
 class ProdutoSerializer(serializers.ModelSerializer):
     class Meta:
@@ -18,6 +20,7 @@ class PedidoSerializer(serializers.ModelSerializer):
         model = Pedido
         fields = ['id', 'data', 'status', 'itens']
 
+    @transaction.atomic
     def create(self, validated_data):
         itens_data = validated_data.pop('itens')
         pedido = Pedido.objects.create(**validated_data)
